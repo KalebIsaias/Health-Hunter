@@ -1,6 +1,25 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
-function Home() {
+export function Home() {
+  useEffect(() => {
+    // Definindo as opções do Watson Assistant Chat
+    window.watsonAssistantChatOptions = {
+      integrationID: "a8be0d22-84eb-433d-8ea7-77c0e13e6564", // Substitua pelo seu ID de integração
+      region: "au-syd", // Substitua pela sua região
+      serviceInstanceID: "d61d44b2-4e38-4ea6-a4c3-97d838689f5a", // Substitua pelo ID da sua instância de serviço
+      onLoad: function(instance) {
+        instance.render(); // Renderiza o widget do chat quando carregado
+      },
+    };
+
+    // Carregando o script do Watson Assistant Chat
+    setTimeout(function() {
+      const script = document.createElement('script');
+      script.src = "https://web-chat.global.assistant.watson.appdomain.cloud/versions/" + (window.watsonAssistantChatOptions.clientVersion || 'latest') + "/WatsonAssistantChatEntry.js";
+      document.head.appendChild(script);
+    }, 0);
+  }, []); // O array vazio como segundo argumento garante que o efeito só execute uma vez
+
   const daysOfWeek = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta'];
   const medications = [
     {
@@ -28,7 +47,6 @@ function Home() {
 
   return (
     <div className="min-h-screen bg-gray-100">
-      
       <nav className="bg-green-500 p-4 shadow-lg">
         <div className="container mx-auto flex items-center">
           <img
@@ -111,5 +129,3 @@ function Home() {
     </div>
   );
 }
-
-export default Home;
